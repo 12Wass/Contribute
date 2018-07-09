@@ -7,57 +7,34 @@
 
 switch($_POST['functionSelect']) {
 
-  case 'registerUser'; // This functions adds an user into our databases
-    // require_once('admin/password_encryption.php');
-    // On vérifie l'existence des variables :
-    header("Location: index.php"); 
-    if (empty($_POST['mail']) ||
-        empty($_POST['password']) ||
-        empty($_POST['verifPassword']))
-        {
-          include('erreurInscription.php?error=manquant');
-        }
-    else {
-    // On initialise les variables :
-    $mail = htmlspecialchars($_POST['mail']);
-    $password = htmlspecialchars($_POST['password']);
-
-    // On fais le check-up
-
-    $count = $bdd->prepare("SELECT COUNT(*) AS nbrMail FROM user WHERE email = ?");
-    $count->execute(array($mail));
-    $req = $count->fetch(PDO::FETCH_ASSOC);
-
-    if($req['nbrMail'] == 0) // L'adresse mail n'existe pas donc on peut vérifier le Pseudo
-    {
-      $username = $bdd->prepare("SELECT COUNT(*) AS nbrUsername FROM user WHERE username = ?");
-      $username->execute(array($_POST['username']));
-      $userExist = $username->fetch(PDO::FETCH_ASSOC);
-
-        if ($userExist['nbrUsername'] == 0)
-        {
-          $req = $bdd->prepare('INSERT INTO user(lastName, firstName, username, address, city, postalCode, email, password, dateReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())');
-          $req->execute(array($_POST['lastName'], $_POST['firstName'], $_POST['username'], $_POST['address'], $_POST['city'], $_POST['postalCode'], $_POST['mail'], password_hash($password, PASSWORD_DEFAULT)));
-
+case 'connectUser':
+// Connecter un utilisateur sur Contribute :
+if (isset($_POST['identifiant']) && isset($_POST['password'])){
+  $identifiant = $_POST['identifiant'];
+  $password = $_POST['password'];
+  // On vérifie la concordance de l'identifiant avec le nom d'utilisateur ou le mail
+    $req = $bdd->prepare('SELECT password FROM user WHERE email OR username = ?');
+    $req->execute(array($identifiant));
+        if (!empty($req)){
+          $hashedPassword = $req->fetch(PDO::FETCH_ASSOC);
+          if (password_verify($password, $hashedpassword)){
+            // Ici, la connexion s'effectue, on récupère tout ce dont on a besoin
+            header('Location: index.php');
+            $connect = $bdd->prepare('SELECT username, mail, firstName, lastName, email WHERE email OR username = ?');
+            $connect->execute(array($identifiant));
+            $userInfos = $connect->fetch(PDO::FETCH_ASSOC);
             $_SESSION['flag'] = true;
-            $_SESSION['mail'] = $mail;
-      }
-        else
-        {
-        include('errorInscription.php?usernameExists');
-        echo 'Erreur, nom d\'utilisateur déjà utilisé';
-        }
-      }
-      else {
-        include('errorInscription.php?mailExists');
-        echo 'Erreur, mail déjà utilisé';
-      }
+            $_SESSION['email'] = $userInfos['email'];
+            $_SESSION['firstName'] = $userInfos['firstName'];
+            $_SESSION['lastName'] = $userInfos['lastName'];
+            $_SESSION['username'] = $userInfos['username'];
     }
-
-  break;
-
-
-
+  }
+}
+else {
+  echo 'Un des champs demandés n\'est pas rempli.';
+}
+break;
   default:
   echo 'Erreur, fonction inexistante.';
   break;

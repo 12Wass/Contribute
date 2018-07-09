@@ -8,7 +8,7 @@
   </head>
   <body>
     <h2>Remplissez le formulaire pour pouvoir vous inscrire</h2>
-    <form action="sendRegistration.php" method="post">
+    <form action="sendReg.php" method="post">
     <fieldset>
       <legend>Informations personnelles </legend>
     <label for="firstName">Prénom</label>
@@ -34,8 +34,7 @@
     <label for="verifPassword">Confirmation</label>
       <input type="password" name="verifPassword" id="verifPassword"></input><br>
     </fieldset>
-    <button onclick="registerUser()">Envoyer</button>
+    <input type="submit">Envoyer</button>
     </form>
-    <script src="function.js"></script>
   </body>
 </html>

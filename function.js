@@ -1,16 +1,9 @@
-function registerUser() {
- var firstName = document.getElementById('firstName').value;
- var lastName = document.getElementById('lastName').value;
- var username = document.getElementById('username').value;
- var address = document.getElementById('address').value;
- var city = document.getElementById('city').value;
- var postalCode = document.getElementById('postalCode').value;
- var mail = document.getElementById('mail').value;
+function connectUser() {
+ var identifiant = document.getElementById('identifiant').value;
  var password = document.getElementById('password').value;
- var verifPassword = document.getElementById('verifPassword').value;
- var functionSelect = "registerUser";
+ var functionSelect = "connectUser";
 
- if(firstName.length >= 2 && lastName.length >= 2 && address.length >= 10 && city.length > 7 && postalCode.length >= 5 && mail.length >= 10 && password.length >= 7 && password.value == verifPassword.value) { 
+ if(identifiant.length > 2 && password.length > 4) { 
    var request = new XMLHttpRequest();
    request.onreadystatechange = function() {
      if (request.readyState == 4 && request.status == 200) {
@@ -19,8 +12,7 @@ function registerUser() {
    };
    request.open('POST', 'function.php');
    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-   request.send(`firstName=${firstName}&lastName=${lastName}&address=${address}&
-                 city=${city}&postalCode=${postalCode}&password=${password}&functionSelect=${functionSelect}&mail=${mail}`);
+   request.send(`identifiant=${identifiant}&password=${password}&functionSelect=${functionSelect}}`);
  }
  else {
    console.log('erreur');
