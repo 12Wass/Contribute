@@ -22,7 +22,8 @@ if (isset($_POST['identifiant']) && isset($_POST['password']))
           $realMdp = $req->fetch();
           if (password_verify($password, $realMdp['password']))
           {
-            // Ici, la connexion s'effectue, on récupère tout ce dont on a besoin
+            // Ici, la connexion s'effectue, on récupère tout ce dont on a besoin et on redirige
+        header('Location: index.php');
             $connect = $bdd->prepare("SELECT username, firstName, lastName, email FROM user WHERE email OR username = ?");
             $connect->execute(array($identifiant));
             $userInfos = $connect->fetch(PDO::FETCH_ASSOC);

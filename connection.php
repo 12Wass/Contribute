@@ -1,7 +1,7 @@
 <?php
   session_start();
   if (isset($_SESSION['flag'])) {
-    echo 'Vous êtes déjà connecté';
+    echo 'Vous êtes déjà connecté. <br> Cliquez <a href="index.php">ici</a> pour revenir à l\'accueil';
 }
   else {
 ?>
@@ -24,5 +24,4 @@
 </html>
 
 <?php }
-var_dump($_SESSION);
 ?>
