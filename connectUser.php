@@ -1,13 +1,6 @@
 <?php
- /* Ce fichier regroupe toutes les fonctions qui seront utilisées/appelées
-    par les fichiers du site. Il ne stockera pas tous les appels PHP
-    mais réuniras ceux qui sont compactables. */
-    session_start();
-    require_once('admin/bddConnect.php');
-
-switch($_POST['functionSelect']) {
-
-case 'connectUser';
+require_once("admin/bddConnect.php");
+session_start();
 // Connecter un utilisateur sur Contribute :
 if (isset($_POST['identifiant']) && isset($_POST['password']))
 {
@@ -40,8 +33,4 @@ if (isset($_POST['identifiant']) && isset($_POST['password']))
 else {
   echo 'Un des champs demandés n\'est pas rempli.';
 }
-break;
-  default:
-  echo 'Erreur, fonction inexistante.';
-  break;
-}
+?>

@@ -1,7 +1,7 @@
 function connectUser() {
  var identifiant = document.getElementById('identifiant').value;
  var password = document.getElementById('password').value;
- var functionSelect = "connectUser";
+ var functionSelect = 'connectUser';
 
  if(identifiant.length > 2 && password.length > 4) { 
    var request = new XMLHttpRequest();
@@ -12,7 +12,7 @@ function connectUser() {
    };
    request.open('POST', 'function.php');
    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-   request.send(`identifiant=${identifiant}&password=${password}&functionSelect=${functionSelect}}`);
+   request.send(`identifiant=${identifiant}&password=${password}&functionSelect=${functionSelect}`);
  }
  else {
    console.log('erreur');

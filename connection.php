@@ -2,7 +2,7 @@
   session_start();
   if (isset($_SESSION['flag'])) {
     echo 'Vous êtes déjà connecté';
-  }
+}
   else {
 ?>
 <!DOCTYPE html>
@@ -12,15 +12,17 @@
     <title>Connexion - Contribute</title>
   </head>
   <body>
-    <h1>Connexion</h2>
+    <h1>Connexion</h1>
     <form action="" method="post">
       <label for="identifiant">Adresse mail - Nom d'utilisateur</label><br>
       <input type="text" name="identifiant" id="identifiant"></input><br>
       <label for="password">Mot de passe</label><br>
       <input type="password" name="password" id="password"></input><br>
-      <button onclick="connectUser()">Envoyer</button>
+      <button onclick="connectUser()">Connexion</button><br>
   </body>
   <script src="function.js"></script>
 </html>
 
-<?php } ?>
+<?php }
+var_dump($_SESSION);
+?>

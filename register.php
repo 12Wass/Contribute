@@ -34,7 +34,7 @@
     <label for="verifPassword">Confirmation</label>
       <input type="password" name="verifPassword" id="verifPassword"></input><br>
     </fieldset>
-    <input type="submit">Envoyer</button>
+    <input type="submit"></input>
     </form>
   </body>
 </html>
