@@ -1,5 +1,6 @@
 <?php
 session_start();
+header('Location: profil.php');
 require_once('admin/bddConnect.php');
 if (empty($_POST['mail']) ||
     empty($_POST['password']) ||
@@ -29,7 +30,7 @@ if($req['nbrMail'] == 0) // L'adresse mail n'existe pas donc on peut vérifier l
       $req = $bdd->prepare('INSERT INTO user(lastName, firstName, username, address, city, postalCode, email, password, dateReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())');
       $req->execute(array($_POST['lastName'], $_POST['firstName'], $_POST['username'], $_POST['address'], $_POST['city'], $_POST['postalCode'], $_POST['mail'], password_hash($password, PASSWORD_DEFAULT)));
       $connect = $bdd->prepare("SELECT username, firstName, lastName, email FROM user WHERE email = ?");
-      $connect->execute(array($email));
+      $connect->execute(array($mail));
       $userInfos = $connect->fetch(PDO::FETCH_ASSOC);
       $_SESSION['flag'] = true;
       $_SESSION['email'] = $userInfos['email'];

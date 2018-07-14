@@ -22,21 +22,31 @@
     <h3>Vos informations personnelles :</h3>
     <fieldset>
       <legend>Identité</legend>
-    <p class="identity"><?php echo $ui['lastName'];?></p>
-    <p class="identity"><?php echo $ui['firstName'];?></p>
-    <p class="identity"><?php echo '<img src="data:image/jpeg;base64,'.base64_encode($ui['picture']) .'" />';?> </p>
-    <p class="identity"><?php echo $ui['username'];?></p><a href="" onclick="modifyId()">Modifier</a>
+      <label for="lastname">Nom</label>
+    <p class="identity" name="lastname"><?php echo $ui['lastName'];?></p>
+      <label for="firstname">Prénom</label>
+    <p class="identity" name="firstname"><?php echo $ui['firstName'];?></p>
+    <?php if (!empty($ui['picture'])){ ?>
+      <label for="picture">Photo</label>
+    <p class="identity" name="picture"><?php echo '<img src="data:image/jpeg;base64,'.base64_encode($ui['picture']) .'" />';?> </p>
+    <?  } ?>
+      <label for="username">Nom d'utilisateur</label>
+    <p class="identity" name="username"><?php echo $ui['username'];?></p><a href="" onclick="modifyId()">Modifier</a>
     <p id="affiche"></p>
   </fieldset>
     <fieldset>
       <legend>Adresse</legend>
-    <p class="address"><?php echo $ui['address'];?> <a href="" onclick="modifyAdd()">Modifier</a></p>
-    <p class="address"><?php echo $ui['city'];?></p>
-    <p class="address"><?php echo $ui['postalCode'];?></p>
+      <label for="address">Adresse</label>
+    <p class="address" name="address"><?php echo $ui['address'];?> <a href="" onclick="modifyAdd()">Modifier</a></p>
+      <label for="city">Ville</label>
+    <p class="address" name="city"><?php echo $ui['city'];?></p>
+      <label for="postalCode">Code postal</label>
+    <p class="address" name="postalCode"><?php echo $ui['postalCode'];?></p>
   </fieldset>
   <fieldset>
     <legend>Contact et mot de passe</legend>
-    <p><?php echo $ui['phone'];?> <a href="" onclick="modifyLn()">Modifier</a></p>
+    <label for="phone">Téléphone</label>
+    <p name="phone"><?php echo $ui['phone'];?> <a href="" onclick="modifyLn()">Modifier</a></p>
     <h3>Pour modifier votre email et/ou votre mot de passe, cliquez <a href="">ici</a></h3>
   </fieldset>
   </body>
