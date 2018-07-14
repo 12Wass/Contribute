@@ -20,11 +20,17 @@ function connectUser() {
  }
 }
 // Fonctions de modification depuis le profil
-  // Modifier le nom de famille
-function modifyId() {
+  // Modifications d'identité
+function modifyId(){
+  var identity = document.getElementsByClassName('identity');
+  
+}
+  // Envoi de la modification d'identité
+function sendIdMod() {
  var identity = document.getElementsByClassName('identity');
-
- if(identity.length > 1) { 
+ var val1 = 1;
+ var functionSelect = 'modifyIdentity';
+ if(val1 == 2) { 
    var request = new XMLHttpRequest();
    request.onreadystatechange = function() {
      if (request.readyState == 4 && request.status == 200) {
@@ -33,11 +39,12 @@ function modifyId() {
    };
    request.open('POST', 'function.php');
    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-   request.send(`identifiant=${identifiant}&password=${password}&functionSelect=${functionSelect}`);
+   request.send(`identity[0]=${lastName}&identity[1]=${firstName}
+                &identity[2]=${picture}&identity[3]=${username}
+                &functionSelect=${functionSelect}`);
  }
  else {
-   document.getElementById('idLab').style.color = 'red';
-   document.getElementById('passLab').style.color = 'red';
+  console.log('erreur');
  }
 }
 

@@ -40,9 +40,17 @@ if (isset($_POST['identifiant']) && isset($_POST['password']))
 }
 else {
   echo 'Un des champs demandés n\'est pas rempli.';
-}
-break;
+}(
 
+case 'modifyIdentity';
+// Modification du profil - partie Identité
+  if (isset($_POST['lastName'])){
+
+  }
+  else {
+
+  }
+break;
 
 
 

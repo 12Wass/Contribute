@@ -22,16 +22,17 @@
     <h3>Vos informations personnelles :</h3>
     <fieldset>
       <legend>Identité</legend>
-    <p name="identity"><?php echo $ui['lastName'];?> <a href="" onclick="modifyId()">Modifier</a></p>
-    <p name="identity"><?php echo $ui['firstName'];?></p>
-    <p name="identity"><?php echo '<img src="data:image/jpeg;base64,'.base64_encode($ui['picture']) .'" />';?> </p>
-    <p name="identity"><?php echo $ui['username'];?></p>
+    <p class="identity"><?php echo $ui['lastName'];?></p>
+    <p class="identity"><?php echo $ui['firstName'];?></p>
+    <p class="identity"><?php echo '<img src="data:image/jpeg;base64,'.base64_encode($ui['picture']) .'" />';?> </p>
+    <p class="identity"><?php echo $ui['username'];?></p><a href="" onclick="modifyId()">Modifier</a>
+    <p id="affiche"></p>
   </fieldset>
     <fieldset>
       <legend>Adresse</legend>
-    <p name="address"><?php echo $ui['address'];?> <a href="" onclick="modifyAdd()">Modifier</a></p>
-    <p name="address"><?php echo $ui['city'];?></p>
-    <p name="address"><?php echo $ui['postalCode'];?></p>
+    <p class="address"><?php echo $ui['address'];?> <a href="" onclick="modifyAdd()">Modifier</a></p>
+    <p class="address"><?php echo $ui['city'];?></p>
+    <p class="address"><?php echo $ui['postalCode'];?></p>
   </fieldset>
   <fieldset>
     <legend>Contact et mot de passe</legend>
