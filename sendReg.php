@@ -28,9 +28,14 @@ if($req['nbrMail'] == 0) // L'adresse mail n'existe pas donc on peut vérifier l
     {
       $req = $bdd->prepare('INSERT INTO user(lastName, firstName, username, address, city, postalCode, email, password, dateReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())');
       $req->execute(array($_POST['lastName'], $_POST['firstName'], $_POST['username'], $_POST['address'], $_POST['city'], $_POST['postalCode'], $_POST['mail'], password_hash($password, PASSWORD_DEFAULT)));
-
-        $_SESSION['flag'] = true;
-        $_SESSION['mail'] = $mail;
+      $connect = $bdd->prepare("SELECT username, firstName, lastName, email FROM user WHERE email = ?");
+      $connect->execute(array($email));
+      $userInfos = $connect->fetch(PDO::FETCH_ASSOC);
+      $_SESSION['flag'] = true;
+      $_SESSION['email'] = $userInfos['email'];
+      $_SESSION['firstName'] = $userInfos['firstName'];
+      $_SESSION['lastName'] = $userInfos['lastName'];
+      $_SESSION['username'] = $userInfos['username'];
   }
     else
     {

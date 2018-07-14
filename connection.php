@@ -1,7 +1,8 @@
 <?php
   session_start();
   if (isset($_SESSION['flag'])) {
-    echo 'Vous êtes déjà connecté. <br> Cliquez <a href="index.php">ici</a> pour revenir à l\'accueil';
+    header('Location: profil.php?connected');
+    echo 'Vous êtes connecté. <br> Cliquez <a href="index.php">ici</a> pour revenir à l\'accueil';
 }
   else {
 ?>
@@ -14,9 +15,9 @@
   <body>
     <h1>Connexion</h1>
     <form action="" method="post">
-      <label for="identifiant">Adresse mail - Nom d'utilisateur</label><br>
+      <label for="identifiant" id="idLab">Adresse mail - Nom d'utilisateur</label><br>
       <input type="text" name="identifiant" id="identifiant"></input><br>
-      <label for="password">Mot de passe</label><br>
+      <label for="password" id="passLab">Mot de passe</label><br>
       <input type="password" name="password" id="password"></input><br>
       <button onclick="connectUser()">Connexion</button><br>
   </body>
