@@ -75,26 +75,25 @@ console.log('erreur');
 }
 
 
-function modifyAdd() {
- var identifiant = document.getElementById('identifiant').value;
- var password = document.getElementById('password').value;
- var functionSelect = 'connectUser';
-
- if(identifiant.length > 2 && password.length > 4) { 
-   var request = new XMLHttpRequest();
-   request.onreadystatechange = function() {
-     if (request.readyState == 4 && request.status == 200) {
-       document.write(request.responseText);
-     }
-   };
-   request.open('POST', 'function.php');
-   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-   request.send(`identifiant=${identifiant}&password=${password}&functionSelect=${functionSelect}`);
- }
- else {
-   document.getElementById('idLab').style.color = 'red';
-   document.getElementById('passLab').style.color = 'red';
- }
+function modifyId(){
+  var address = document.getElementsByClassName('address');
+    var addressinfo = address[0].innerText;
+    var city = address[1].innerText;;
+    var postalCode = address[2].innerText;;
+    var functionSelect = 'modifyAddress';
+    if (lastName.length > 1){
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+          document.write(request.responseText);
+        }
+      };
+      request.open('POST', 'function.php');
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      request.send(`lastName=${lastName}&firstName=${firstName}
+                   &picture=${picture}&username=${username}
+                   &functionSelect=${functionSelect}`);
+    }
 }
 
 

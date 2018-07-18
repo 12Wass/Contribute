@@ -51,18 +51,7 @@ if(isset($_POST['lastName']) && isset($_POST['firstName']) && isset($_POST['user
   $lastName = $_POST['lastName'];
   $firstName = $_POST['firstName'];
   $username = $_POST['username'];
-  echo '
-      Modification pour l\'adresse mail:'. $_SESSION['email'] .'<br>
-      <form action="" method="post">
-              <label for="lastName">Nom : </label>
-          <input type="text" id="lastName" name="lastName" value="'.$lastName.'"></input></br>
-          <label for="firstName">Prénom : </label>
-          <input type="text" id="firstName" name="firstName" value="'. $firstName .'"></input></br>
-          <label for="picture">Photo : </label>
-          <input type="file" id="picture" name="picture" value=""></input></br>
-          <label for="username">Nom d\'utilisateur : </label>
-          <input type="username" id="username" name="username" value="'. $username .'"></input></br>
-          <button onclick="sendIdMod()">Envoyer</button>';
+  include('includes/modifyForm.php');
 }
 else {
   echo 'merde';
@@ -86,6 +75,34 @@ $InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
       {
         $updateId = $bdd->prepare('UPDATE user SET lastName = ?, firstName = ?, username = ? WHERE email = ?');
         $updateId->execute(array($_POST['lastName'], $_POST['firstName'], $_POST['username'],  $_SESSION['email']));
+        $_SESSION['lastName'] = $_POST['lastName'];
+        $_SESSION['firstName'] = $_POST['firstName'];
+        $_SESSION['username'] = $_POST['username'];
+
+      }
+  else {
+    echo 'testostérone';
+  }
+break;
+
+case 'modifyAddress'; ////////////////////////////////////////////////////////////////////////////////////
+$getInfos = $bdd->prepare('SELECT address, city, postalCode FROM user WHERE email = ?');
+$getInfos->execute(array($_SESSION['email']));
+$InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
+
+// On vérifie l'existence du nouveau nom d'utilisateur (puisqu'il est unique)
+  $count = $bdd->prepare('SELECT COUNT(*) AS nbrUsername FROM user WHERE username = ?');
+  $count->execute(array($_POST['username']));
+  $userExist = $count->fetch(PDO::FETCH_ASSOC);
+
+  if ($userExist['nbrUsername'] == 0)
+      {
+        $updateId = $bdd->prepare('UPDATE user SET lastName = ?, firstName = ?, username = ? WHERE email = ?');
+        $updateId->execute(array($_POST['lastName'], $_POST['firstName'], $_POST['username'],  $_SESSION['email']));
+        $_SESSION['lastName'] = $_POST['lastName'];
+        $_SESSION['firstName'] = $_POST['firstName'];
+        $_SESSION['username'] = $_POST['username'];
+
       }
   else {
     echo 'testostérone';

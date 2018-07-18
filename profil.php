@@ -35,17 +35,20 @@
     <p class="identity" name="picture"><?php echo '<img src="data:image/jpeg;base64,'.base64_encode($ui['picture']) .'" />';?> </p>
     <?  } ?>
       <label for="username">Nom d'utilisateur</label>
-    <p class="identity" name="username"><?php echo $ui['username'];?></p><button onclick="modifyId()">Modifier</button>
+    <p class="identity" name="username"><?php echo $ui['username'];?></p>
+    <button onclick="modifyId()">Modifier</button>
     <p id="affiche"></p>
   </fieldset>
     <fieldset>
       <legend>Adresse</legend>
       <label for="address">Adresse</label>
-    <p class="address" name="address"><?php echo $ui['address'];?> <a href="" onclick="modifyAdd()">Modifier</a></p>
+    <p class="address" name="address"><?php echo $ui['address'];?> </p>
       <label for="city">Ville</label>
     <p class="address" name="city"><?php echo $ui['city'];?></p>
       <label for="postalCode">Code postal</label>
     <p class="address" name="postalCode"><?php echo $ui['postalCode'];?></p>
+    <button onclick="modifyAdd()">Modifier</button>
+
   </fieldset>
   <fieldset>
     <legend>Contact et mot de passe</legend>
