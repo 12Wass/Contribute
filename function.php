@@ -7,7 +7,7 @@
 
 switch($_POST['functionSelect']) {
 
-case 'connectUser';
+case 'connectUser'; ////////////////////////////////////////////////////////////////////////////////////
 // Connecter un utilisateur sur Contribute :
 if (isset($_POST['identifiant']) && isset($_POST['password']))
 {
@@ -40,75 +40,64 @@ if (isset($_POST['identifiant']) && isset($_POST['password']))
 }
 else {
   echo 'Un des champs demandés n\'est pas rempli.';
-}(
-
-case 'modifyIdentity';
-// Modification du profil - partie Identité
-  if (isset($_POST['lastName'])){
-
-  }
-  else {
-
-  }
-break;
-
-
-
-
-
-
-
-
-
-
-
-
-/* --------- INSCRIPTION : fonction registerUser() dépréciée, ne fonctionne pas ----------
-case 'registerUser';
-if (empty($_POST['mail']) ||
-    empty($_POST['password']) ||
-    empty($_POST['verifPassword']))
-    {
-      include('erreurInscription.php?error=manquant');
-    }
-else {
-// On initialise les variables :
-$mail = htmlspecialchars($_POST['mail']);
-$password = htmlspecialchars($_POST['password']);
-
-// On fais le check-up
-
-$count = $bdd->prepare("SELECT COUNT(*) AS nbrMail FROM user WHERE email = ?");
-$count->execute(array($mail));
-$req = $count->fetch(PDO::FETCH_ASSOC);
-
-if($req['nbrMail'] == 0) // L'adresse mail n'existe pas donc on peut vérifier le Pseudo
-{
-  $username = $bdd->prepare("SELECT COUNT(*) AS nbrUsername FROM user WHERE username = ?");
-  $username->execute(array($_POST['username']));
-  $userExist = $username->fetch(PDO::FETCH_ASSOC);
-
-    if ($userExist['nbrUsername'] == 0)
-    {
-      $req = $bdd->prepare('INSERT INTO user(lastName, firstName, username, address, city, postalCode, email, password, dateReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())');
-      $req->execute(array($_POST['lastName'], $_POST['firstName'], $_POST['username'], $_POST['address'], $_POST['city'], $_POST['postalCode'], $_POST['mail'], password_hash($password, PASSWORD_DEFAULT)));
-
-        $_SESSION['flag'] = true;
-        $_SESSION['mail'] = $mail;
-  }
-    else
-    {
-    include('errorInscription.php?usernameExists');
-    echo 'Erreur, nom d\'utilisateur déjà utilisé';
-    }
-  }
-  else {
-    include('errorInscription.php?mailExists');
-    echo 'Erreur, mail déjà utilisé';
-  }
 }
 break;
-*/
+
+
+
+case 'generateIdForm'; ////////////////////////////////////////////////////////////////////////////////////
+// Fonction permettant la génération d'un formulaire PHP pour modifier les informations Identité(profil)
+if(isset($_POST['lastName']) && isset($_POST['firstName']) && isset($_POST['username'])){
+  $lastName = $_POST['lastName'];
+  $firstName = $_POST['firstName'];
+  $username = $_POST['username'];
+  echo '
+      Modification pour l\'adresse mail:'. $_SESSION['email'] .'<br>
+      <form action="" method="post">
+              <label for="lastName">Nom : </label>
+          <input type="text" id="lastName" name="lastName" value="'.$lastName.'"></input></br>
+          <label for="firstName">Prénom : </label>
+          <input type="text" id="firstName" name="firstName" value="'. $firstName .'"></input></br>
+          <label for="picture">Photo : </label>
+          <input type="file" id="picture" name="picture" value=""></input></br>
+          <label for="username">Nom d\'utilisateur : </label>
+          <input type="username" id="username" name="username" value="'. $username .'"></input></br>
+          <button onclick="sendIdMod()">Envoyer</button>';
+}
+else {
+  echo 'merde';
+}
+break;
+
+
+
+
+case 'modifyIdentity'; ////////////////////////////////////////////////////////////////////////////////////
+$getInfos = $bdd->prepare('SELECT lastName, firstName, username FROM user WHERE email = ?');
+$getInfos->execute(array($_SESSION['email']));
+$InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
+
+// On vérifie l'existence du nouveau nom d'utilisateur (puisqu'il est unique)
+  $count = $bdd->prepare('SELECT COUNT(*) AS nbrUsername FROM user WHERE username = ?');
+  $count->execute(array($_POST['username']));
+  $userExist = $count->fetch(PDO::FETCH_ASSOC);
+
+  if ($userExist['nbrUsername'] == 0)
+      {
+        $updateId = $bdd->prepare('UPDATE user SET lastName = ?, firstName = ?, username = ? WHERE email = ?');
+        $updateId->execute(array($_POST['lastName'], $_POST['firstName'], $_POST['username'],  $_SESSION['email']));
+      }
+  else {
+    echo 'testostérone';
+  }
+break;
+
+
+
+
+
+
+
   default:
   echo 'Erreur, fonction inexistante.';
   break;

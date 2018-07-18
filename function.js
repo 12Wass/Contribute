@@ -20,17 +20,43 @@ function connectUser() {
  }
 }
 // Fonctions de modification depuis le profil
-  // Modifications d'identité
+  // Modifications d'identité //
 function modifyId(){
   var identity = document.getElementsByClassName('identity');
-  
+    var lastName = identity[0].innerText;
+    var firstName = identity[1].innerText;;
+    var picture = identity[2].innerText;;
+    var username = identity[3].innerText;;
+    var functionSelect = 'generateIdForm';
+    if (lastName.length > 1){
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+          document.write(request.responseText);
+        }
+      };
+      request.open('POST', 'function.php');
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      request.send(`lastName=${lastName}&firstName=${firstName}
+                   &picture=${picture}&username=${username}
+                   &functionSelect=${functionSelect}`);
+    }
 }
+
+
+
   // Envoi de la modification d'identité
 function sendIdMod() {
- var identity = document.getElementsByClassName('identity');
- var val1 = 1;
+ var newfirstName = document.getElementById('firstName').value;
+ var newlastName = document.getElementById('lastName').value;
+ var newUsername = document.getElementById('username').value;
+ var newPicture = document.getElementById('picture').value;
+ console.log('fn : ' + newfirstName);
+ console.log('ln : '+ newlastName);
+ console.log('us: ' + newUsername)
  var functionSelect = 'modifyIdentity';
- if(val1 == 2) { 
+ var val1 = 1;
+ if(val1 == 1) { 
    var request = new XMLHttpRequest();
    request.onreadystatechange = function() {
      if (request.readyState == 4 && request.status == 200) {
@@ -39,12 +65,12 @@ function sendIdMod() {
    };
    request.open('POST', 'function.php');
    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-   request.send(`identity[0]=${lastName}&identity[1]=${firstName}
-                &identity[2]=${picture}&identity[3]=${username}
-                &functionSelect=${functionSelect}`);
+   request.send(`firstName=${newfirstName}&lastName=${newlastName}&username=${newUsername}
+                &picture=${newPicture}&functionSelect=${functionSelect}`);
+
  }
  else {
-  console.log('erreur');
+console.log('erreur');
  }
 }
 

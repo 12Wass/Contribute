@@ -6,7 +6,11 @@
   }
   elseif (isset($_GET['connected'])) {
     echo 'Redirigé depuis la page de connexion';
-  }{
+    $req = $bdd->prepare('SELECT lastName, firstName, picture, username, address, city, postalCode, description, email, phone FROM user WHERE email = ?');
+    $req->execute(array($_SESSION['email']));
+    $ui = $req->fetch(PDO::FETCH_ASSOC);
+  }
+  else {
     $req = $bdd->prepare('SELECT lastName, firstName, picture, username, address, city, postalCode, description, email, phone FROM user WHERE email = ?');
     $req->execute(array($_SESSION['email']));
     $ui = $req->fetch(PDO::FETCH_ASSOC);
@@ -31,7 +35,7 @@
     <p class="identity" name="picture"><?php echo '<img src="data:image/jpeg;base64,'.base64_encode($ui['picture']) .'" />';?> </p>
     <?  } ?>
       <label for="username">Nom d'utilisateur</label>
-    <p class="identity" name="username"><?php echo $ui['username'];?></p><a href="" onclick="modifyId()">Modifier</a>
+    <p class="identity" name="username"><?php echo $ui['username'];?></p><button onclick="modifyId()">Modifier</button>
     <p id="affiche"></p>
   </fieldset>
     <fieldset>
