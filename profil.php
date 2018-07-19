@@ -30,10 +30,8 @@
     <p class="identity" name="lastname"><?php echo $ui['lastName'];?></p>
       <label for="firstname">Prénom</label>
     <p class="identity" name="firstname"><?php echo $ui['firstName'];?></p>
-    <?php if (!empty($ui['picture'])){ ?>
       <label for="picture">Photo</label>
-    <p class="identity" name="picture"><?php echo '<img src="data:image/jpeg;base64,'.base64_encode($ui['picture']) .'" />';?> </p>
-    <?  } ?>
+    <p class="identity" name="picture"><?php if (!empty($ui['picture'])){ echo '<img src="data:image/jpeg;base64,'.base64_encode($ui['picture']) .'" />'; } else { echo 'Pas de photo'; }?> </p>
       <label for="username">Nom d'utilisateur</label>
     <p class="identity" name="username"><?php echo $ui['username'];?></p>
     <button onclick="modifyId()">Modifier</button>

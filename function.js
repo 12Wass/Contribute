@@ -24,10 +24,10 @@ function connectUser() {
 function modifyId(){
   var identity = document.getElementsByClassName('identity');
     var lastName = identity[0].innerText;
-    var firstName = identity[1].innerText;;
-    var picture = identity[2].innerText;;
-    var username = identity[3].innerText;;
-    var functionSelect = 'generateIdForm';
+    var firstName = identity[1].innerText;
+    var picture = identity[2].innerText;
+    var username = identity[3].innerText;
+    var functionSelect = 'generateIdForm'; // Fonction PHP crééant le formulaire de modification
     if (lastName.length > 1){
       var request = new XMLHttpRequest();
       request.onreadystatechange = function(){
@@ -75,7 +75,7 @@ console.log('erreur');
 }
 
 
-function modifyId(){
+function modifyAdd(){
   var address = document.getElementsByClassName('address');
     var addressinfo = address[0].innerText;
     var city = address[1].innerText;;
