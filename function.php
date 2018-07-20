@@ -58,9 +58,6 @@ else {
 }
 break;
 
-
-
-
 case 'modifyIdentity'; ////////////////////////////////////////////////////////////////////////////////////
 $getInfos = $bdd->prepare('SELECT lastName, firstName, username FROM user WHERE email = ?');
 $getInfos->execute(array($_SESSION['email']));
@@ -85,31 +82,32 @@ $InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
   }
 break;
 
+// Modification de l'adresse
 case 'modifyAddress'; ////////////////////////////////////////////////////////////////////////////////////
 $getInfos = $bdd->prepare('SELECT address, city, postalCode FROM user WHERE email = ?');
 $getInfos->execute(array($_SESSION['email']));
 $InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
 
 // On vérifie l'existence du nouveau nom d'utilisateur (puisqu'il est unique)
-  $count = $bdd->prepare('SELECT COUNT(*) AS nbrUsername FROM user WHERE username = ?');
-  $count->execute(array($_POST['username']));
-  $userExist = $count->fetch(PDO::FETCH_ASSOC);
 
-  if ($userExist['nbrUsername'] == 0)
-      {
-        $updateId = $bdd->prepare('UPDATE user SET lastName = ?, firstName = ?, username = ? WHERE email = ?');
-        $updateId->execute(array($_POST['lastName'], $_POST['firstName'], $_POST['username'],  $_SESSION['email']));
-        $_SESSION['lastName'] = $_POST['lastName'];
-        $_SESSION['firstName'] = $_POST['firstName'];
-        $_SESSION['username'] = $_POST['username'];
+        $updateId = $bdd->prepare('UPDATE user SET address = ?, city = ?, postalCode = ? WHERE email = ?');
+        $updateId->execute(array($_POST['addressinfo'], $_POST['city'], $_POST['postalCode'],  $_SESSION['email']));
 
-      }
-  else {
-    echo 'testostérone';
-  }
+
 break;
 
-
+case 'generateAddForm'; ////////////////////////////////////////////////////////////////////////////////////
+// Fonction permettant la génération d'un formulaire PHP pour modifier les informations Identité(profil)
+if(isset($_POST['addressinfo']) && isset($_POST['city']) && isset($_POST['postalCode'])){
+  $addressinfo = $_POST['addressinfo'];
+  $city = $_POST['city'];
+  $postalCode = $_POST['postalCode'];
+  include('includes/modifyForm.php');
+}
+else {
+  echo 'merde';
+}
+break;
 
 
 

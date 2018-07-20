@@ -1,3 +1,5 @@
+<?php if ($_POST['functionSelect'] == 'generateIdForm'){
+?>
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
   <head>
@@ -14,7 +16,31 @@
         <label for="picture">Photo : </label>
         <input type="file" id="picture" name="picture" value=""></input></br>
         <label for="username">Nom d'utilisateur : </label>
-        <input type="username" id="username" name="username" value="<?php echo $username;?>"></input></br>
+        <input type="text" id="username" name="username" value="<?php echo $username;?>"></input></br>
         <button onclick="sendIdMod()">Envoyer</button>
   </body>
 </html>
+<?php
+}
+  elseif($_POST['functionSelect'] == 'generateAddForm'){
+?>
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Modification pour l'adresse mail: <?php echo $_SESSION['email'];?></h1><br>
+    <form action="" method="post">
+            <label for="addressinfo">Adresse : </label>
+        <input type="text" id="addressinfo" name="addressinfo" value="<?php echo $addressinfo;?>"></input></br>
+        <label for="city">Ville : </label>
+        <input type="text" id="city" name="city" value="<?php echo $city;?>"></input></br>
+        <label for="postalCode">Code Postal </label>
+        <input type="text" id="postalCode" name="postalCode" value="<?php echo $postalCode;?>"></input></br>
+        <button onclick="sendAddMod()">Envoyer</button>
+  </body>
+</html>
+
+<?php }?>

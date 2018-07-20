@@ -4,13 +4,11 @@
   if(empty($_SESSION['flag'])){
     echo 'Vous n\'êtes pas connectés sur Contribute.';
   }
-  elseif (isset($_GET['connected'])) {
-    echo 'Redirigé depuis la page de connexion';
-    $req = $bdd->prepare('SELECT lastName, firstName, picture, username, address, city, postalCode, description, email, phone FROM user WHERE email = ?');
-    $req->execute(array($_SESSION['email']));
-    $ui = $req->fetch(PDO::FETCH_ASSOC);
-  }
+
   else {
+    if (isset($_GET['connected'])){
+      echo 'Redirigé depuis la page de connexion';
+    }
     $req = $bdd->prepare('SELECT lastName, firstName, picture, username, address, city, postalCode, description, email, phone FROM user WHERE email = ?');
     $req->execute(array($_SESSION['email']));
     $ui = $req->fetch(PDO::FETCH_ASSOC);

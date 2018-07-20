@@ -80,8 +80,8 @@ function modifyAdd(){
     var addressinfo = address[0].innerText;
     var city = address[1].innerText;;
     var postalCode = address[2].innerText;;
-    var functionSelect = 'modifyAddress';
-    if (lastName.length > 1){
+    var functionSelect = 'generateAddForm';
+    if (city.length > 1){
       var request = new XMLHttpRequest();
       request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
@@ -90,14 +90,37 @@ function modifyAdd(){
       };
       request.open('POST', 'function.php');
       request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      request.send(`lastName=${lastName}&firstName=${firstName}
-                   &picture=${picture}&username=${username}
+      request.send(`addressinfo=${addressinfo}&city=${city}
+                   &postalCode=${postalCode}
                    &functionSelect=${functionSelect}`);
     }
 }
 
 
+// Envoi de la modification d'adresse
+function sendAddMod() {
+var newAddressinfo = document.getElementById('addressinfo').value;
+var newCity = document.getElementById('city').value;
+var newPostalCode = document.getElementById('postalCode').value;
+var functionSelect = 'modifyAddress';
+var val1 = 1;
+if(val1 == 1) { 
+ var request = new XMLHttpRequest();
+ request.onreadystatechange = function() {
+   if (request.readyState == 4 && request.status == 200) {
+     document.write(request.responseText);
+   }
+ };
+ request.open('POST', 'function.php');
+ request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+ request.send(`addressinfo=${newAddressinfo}&city=${newCity}&postalCode=${newPostalCode}
+          &functionSelect=${functionSelect}`);
 
+}
+else {
+console.log('erreur');
+}
+}
 
 
 
