@@ -33,9 +33,6 @@
       <input type="password" name="password" id="password"></input><br>
     <label for="verifPassword">Confirmation</label>
       <input type="password" name="verifPassword" id="verifPassword"></input><br>
-    <label for="telephone">Téléphone</label>
-      <input type="phone" name="telephone" id="telephone"></input><br>
-
     </fieldset>
     <input type="submit"></input>
     </form>
