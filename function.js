@@ -117,12 +117,21 @@ if(val1 == 1) { 
           &functionSelect=${functionSelect}`);
 
 }
-else {
-console.log('erreur');
-}
+  else {
+    console.log('erreur');
+  }
 }
 
+// Gestion des projets
+// Envoi d'un projet
 
+function addProject() {
+  var projectName = document.getElementById('name').value;
+  var projectCategory = document.getElementById('category');
+  var selectedCategory = projectCategory.options[projectCategory.selectedIndex].value;
+  console.log(selectedCategory.value);
+
+}
 
 
 
