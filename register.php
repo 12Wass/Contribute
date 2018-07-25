@@ -26,7 +26,7 @@
     <fieldset>
       <legend>Informations utilisateur</legend>
     <label for="mail">Mail</label>
-      <input type="mail" name="mail" id="mail"></input><br>
+      <input type="mail" name="email" id="email"></input><br>
     <label for="username">Nom d'utilisateur</label>
       <input type="text" name="username" id="username"></input><br>
     <label for="password">Mot de passe</label>

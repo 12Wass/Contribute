@@ -1,47 +1,58 @@
 <?php
 session_start();
 require_once('admin/bddConnect.php');
+  $firstName = $_POST['firstName'];
+  $lastName = $_POST['lastName'];
+  $address = $_POST['address'];
+  $city = $_POST['city'];
+  $postalCode = $_POST['postalCode'];
+  $email = $_POST['email'];
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $verifPassword = $_POST['verifPassword'];
 
-// On initialise les variables :
-$mail = htmlspecialchars($_POST['mail']);
-$password = htmlspecialchars($_POST['password']);
+// Après avoir initialiser toutes les variables (faire un contrôle d'erreur en cas d'oubli)
+// On vérifie l'existence d'une adresse mail qui serai égale à celle entrée, pareillement pour l'username
 
-// On fais le check-up
+  $checkMail = $bdd->prepare('SELECT COUNT(*) AS nbrMail FROM user WHERE email = ?');
+  $checkMail->execute(array($email));
+  $mailExists = $checkMail->fetch(PDO::FETCH_ASSOC);
 
-$count = $bdd->prepare("SELECT COUNT(*) AS nbrMail FROM user WHERE email = ?");
-$count->execute(array($mail));
-$req = $count->fetch(PDO::FETCH_ASSOC);
-echo 'jusquici'
-if($req['nbrMail'] == 0) // L'adresse mail n'existe pas donc on peut vérifier le Pseudo
-{
-  $username = $bdd->prepare("SELECT COUNT(*) AS nbrUsername FROM user WHERE username = ?");
-  $username->execute(array($_POST['username']));
-  $userExist = $username->fetch(PDO::FETCH_ASSOC);
-  echo 'nbrMailReq';
-
-    if ($userExist['nbrUsername'] == 0)
+if($mailExists['nbrMail'] == 0) // Si l'email n'est pas utilisé
+  {
+    if($password == $verifPassword) // Si les mots de passes rentrés correspondent
     {
-      $register = $bdd->prepare("INSERT INTO user(lastName, firstName, username, address, city, postalCode, email, password, dateReg, lastConnection) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-      $register->execute(array($_POST['lastName'], $_POST['firstName'], $_POST['username'], $_POST['address'], $_POST['city'], $_POST['postalCode'], $_POST['mail'], password_hash($password, PASSWORD_DEFAULT)));
-      $connect = $bdd->prepare("SELECT username, firstName, lastName, email FROM user WHERE email = ?");
-      $connect->execute(array($mail));
-      $userInfos = $connect->fetch(PDO::FETCH_ASSOC);
-      var_dump($_POST); echo '<br> ____________'; var_dump($userInfos); var_dump($req)
-      $_SESSION['flag'] = true;
-      $_SESSION['email'] = $userInfos['email'];
-      $_SESSION['firstName'] = $userInfos['firstName'];
-      $_SESSION['lastName'] = $userInfos['lastName'];
-      $_SESSION['username'] = $userInfos['username'];
-  }
+      $checkUsr = $bdd->prepare('SELECT COUNT(*) AS nbrUser FROM user WHERE username = ?');
+      $checkUsr->execute(array($username));
+      $userExists = $checkUsr->fetch(PDO::FETCH_ASSOC);
+        echo 'Insertion tactique';
+        if($userExists['nbrUser'] == 0) // Ici tout est bon, utilisateur recevable.
+        {
+          $createUser = $bdd->prepare('INSERT INTO user(lastName, firstName, username, address, city, postalCode, email, password, dateReg, lastConnection) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())');
+          $createUser->execute(array($lastName, $firstName, $username, $address, $city, $postalCode, $email, password_hash($password)));
+          // Ici on créée les variables de session
+          $_SESSION['flag'] == true;
+          $_SESSION['lastName'] == $lastName;
+          $_SESSION['firstName'] == $firstName;
+          $_SESSION['username'] == $username;
+          $_SESSION['email'] == $email;
+          echo 'Session tactique';
+      }
+      // A partir d'ici on gère les cas d'erreur : Si l'username est déjà utilisé
+        else
+        {
+          echo 'username used';
+        }
+      }
+
+      else
+      {
+        echo 'Les mots de passe ne correspondent pas';
+      }
+    }
+
     else
     {
-    include('errorInscription.php?usernameExists');
-    echo 'Erreur, nom d\'utilisateur déjà utilisé';
+      echo 'L\'adresse mail existe déjà';
     }
-  }
-  else {
-    include('errorInscription.php?mailExists');
-    echo 'Erreur, mail déjà utilisé';
-  }
-
 ?>
