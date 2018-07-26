@@ -2,6 +2,7 @@
   session_start();
   require_once('admin/bddConnect.php');
   $req = $bdd->query('SELECT id, nom FROM categorie');
+  echo $_SESSION['username'];
 ?>
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
@@ -21,16 +22,14 @@
           }
         ?>
       </select><br>
-      <label for="description">Descrption</label><br>
+      <label for="description">Description</label><br>
         <textarea name="description" id="description" rows=4 cols=40 wrap=virtual>Description de votre projet.</textarea><br><br>
-      <label for="target">Votre objectif: (somme visée)</label><br>
-        <input type="text" name="target" id="target"></input><br><br>
+      <label for="target">Votre objectif (somme visée):</label><br>
+        <input type="text" name="target" id="target"></input><br>
       <label for="contribmin">Contribution minimale</label><br>
-        <!-- Ajouter la contribution minimale ici -->
-      <label for="deadLine">Date limite du projet (yyyy-mm-dd)</label><br>
+        <input type="text" name="contribMin" id="contribMin"></input><br>
+      <label for="deadLine">Date limite du projet</label><br>
         <input type="date" name="deadline" id="deadline"></input><br><br>
-      <label for="email">E-mail:</label><br>
-        <input type="email" name="email" id="email"></input><br><br>
         <button onclick="addProject()">Valider</button>
     </form>
   </body>

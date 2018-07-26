@@ -7,7 +7,7 @@
 
 switch($_POST['functionSelect']) {
 
-case 'connectUser'; ////////////////////////////////////////////////////////////////////////////////////
+case 'connectUser': ////////////////////////////////////////////////////////////////////////////////////
 // Connecter un utilisateur sur Contribute :
 if (isset($_POST['identifiant']) && isset($_POST['password']))
 {
@@ -45,7 +45,7 @@ break;
 
 
 
-case 'generateIdForm'; ////////////////////////////////////////////////////////////////////////////////////
+case 'generateIdForm': ////////////////////////////////////////////////////////////////////////////////////
 // Fonction permettant la génération d'un formulaire PHP pour modifier les informations Identité(profil)
 if(isset($_POST['lastName']) && isset($_POST['firstName']) && isset($_POST['username'])){
   $lastName = $_POST['lastName'];
@@ -58,7 +58,7 @@ else {
 }
 break;
 
-case 'modifyIdentity'; ////////////////////////////////////////////////////////////////////////////////////
+case 'modifyIdentity': ////////////////////////////////////////////////////////////////////////////////////
 $getInfos = $bdd->prepare('SELECT lastName, firstName, username FROM user WHERE email = ?');
 $getInfos->execute(array($_SESSION['email']));
 $InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
@@ -83,7 +83,7 @@ $InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
 break;
 
 // Modification de l'adresse
-case 'modifyAddress'; ////////////////////////////////////////////////////////////////////////////////////
+case 'modifyAddress': ////////////////////////////////////////////////////////////////////////////////////
 $getInfos = $bdd->prepare('SELECT address, city, postalCode FROM user WHERE email = ?');
 $getInfos->execute(array($_SESSION['email']));
 $InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
@@ -96,7 +96,7 @@ $InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
 
 break;
 
-case 'generateAddForm'; ////////////////////////////////////////////////////////////////////////////////////
+case 'generateAddForm': ////////////////////////////////////////////////////////////////////////////////////
 // Fonction permettant la génération d'un formulaire PHP pour modifier les informations Identité(profil)
 if(isset($_POST['addressinfo']) && isset($_POST['city']) && isset($_POST['postalCode'])){
   $addressinfo = $_POST['addressinfo'];
@@ -110,8 +110,23 @@ else {
 break;
 
 
+case 'addProject':
+  $user = $bdd->prepare("SELECT id FROM user WHERE email = ?");
+  $user->execute(array($_SESSION['email']));
+  $userId = $user->fetch(PDO::FETCH_ASSOC);
+    // On redéfinis les variables plus plus de facilité
+      $category = $_POST['selectedCategory'];
+      $name = $_POST['projectName'];
+      $description = $_POST['description'];
+      $target = $_POST['target'];
+      $deadline = $_POST['deadLine'];
+      $contribMin = $_POST['contribMin'];
 
-
+  $addProject = $bdd->prepare("INSERT INTO projet(idCategorie, idUser, name, target, description, deadLine, contribMin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+  $addProject->execute(array($category, $userId, $name, $target, $description, $deadline, $contribMin);
+  echo 'Projet ajouté'; var_dump($_POST);
+  var_dump($userId);
+break;
 
   default:
   echo 'Erreur, fonction inexistante.';

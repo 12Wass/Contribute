@@ -126,11 +126,40 @@ if(val1 == 1) { 
 // Envoi d'un projet
 
 function addProject() {
+  var categories = document.getElementById('category');
+  // Valeurs à traiter en PHP
+  var selectedCategory = categories.options[categories.selectedIndex].value;
   var projectName = document.getElementById('name').value;
-  var projectCategory = document.getElementById('category');
-  var selectedCategory = projectCategory.options[projectCategory.selectedIndex].value;
-  console.log(selectedCategory.value);
+  var description = document.getElementById('description').value;
+  var target = document.getElementById('target').value;
+  var deadLine = document.getElementById('deadline').value;
+  var contribMin = document.getElementById('contribMin').value;
+  console.log(selectedCategory);
+  console.log(projectName);
+  console.log(description);
+  console.log(target);
+  console.log(deadLine);
+  console.log(contribMin);
+  
+  var functionSelect = 'addProject';
+  var val1 = 1; // A remplacer par des vérifications
+    if (val1 == 1) {
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+          document.write(request.responseText);
+        }
+      };
+      request.open('POST', 'function.php');
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      request.send(`selectedCategory=${selectedCategory}&projectName=${projectName}
+                    &description=${description}&target=${target}
+                    &deadLine=${deadLine}&contribMin=${contribMin}&functionSelect=${functionSelect}`);
 
+     }
+       else {
+         console.log('erreur');
+       }
 }
 
 

@@ -19,6 +19,7 @@
       <input type="text" name="identifiant" id="identifiant"></input><br>
       <label for="password" id="passLab">Mot de passe</label><br>
       <input type="password" name="password" id="password"></input><br>
+      <input type="submit"></input>
       <button onclick="connectUser()">Connexion</button><br>
   </body>
   <script src="function.js"></script>
