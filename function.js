@@ -1,9 +1,13 @@
+/* Ce fichier à pour objectif de lister et compresser toutes les fonctions JS/AJAX
+  utilisées sur Contribute.
+*/
+
 function connectUser() {
  var identifiant = document.getElementById('identifiant').value;
  var password = document.getElementById('password').value;
  var functionSelect = 'connectUser';
-
- if(identifiant.length > 2 && password.length > 4) { 
+ var val1 = 1;
+ if(val1 == 1) { 
    var request = new XMLHttpRequest();
    request.onreadystatechange = function() {
      if (request.readyState == 4 && request.status == 200) {
@@ -19,6 +23,7 @@ function connectUser() {
    document.getElementById('passLab').style.color = 'red';
  }
 }
+
 // Fonctions de modification depuis le profil
   // Modifications d'identité //
 function modifyId(){
@@ -140,7 +145,7 @@ function addProject() {
   console.log(target);
   console.log(deadLine);
   console.log(contribMin);
-  
+
   var functionSelect = 'addProject';
   var val1 = 1; // A remplacer par des vérifications
     if (val1 == 1) {

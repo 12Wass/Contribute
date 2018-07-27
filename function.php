@@ -4,16 +4,13 @@
     mais réuniras ceux qui sont compactables. */
     session_start();
     require_once('admin/bddConnect.php');
-
 switch($_POST['functionSelect']) {
-
 case 'connectUser': ////////////////////////////////////////////////////////////////////////////////////
 // Connecter un utilisateur sur Contribute :
 if (isset($_POST['identifiant']) && isset($_POST['password']))
 {
   $identifiant = $_POST['identifiant'];
   $password = $_POST['password'];
-
   // On vérifie la concordance de l'identifiant avec le nom d'utilisateur ou le mail
     $req = $bdd->prepare("SELECT password FROM user WHERE email OR username = ?");
     $req->execute(array($identifiant));
@@ -42,9 +39,6 @@ else {
   echo 'Un des champs demandés n\'est pas rempli.';
 }
 break;
-
-
-
 case 'generateIdForm': ////////////////////////////////////////////////////////////////////////////////////
 // Fonction permettant la génération d'un formulaire PHP pour modifier les informations Identité(profil)
 if(isset($_POST['lastName']) && isset($_POST['firstName']) && isset($_POST['username'])){
@@ -57,17 +51,14 @@ else {
   echo 'merde';
 }
 break;
-
 case 'modifyIdentity': ////////////////////////////////////////////////////////////////////////////////////
 $getInfos = $bdd->prepare('SELECT lastName, firstName, username FROM user WHERE email = ?');
 $getInfos->execute(array($_SESSION['email']));
 $InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
-
 // On vérifie l'existence du nouveau nom d'utilisateur (puisqu'il est unique)
   $count = $bdd->prepare('SELECT COUNT(*) AS nbrUsername FROM user WHERE username = ?');
   $count->execute(array($_POST['username']));
   $userExist = $count->fetch(PDO::FETCH_ASSOC);
-
   if ($userExist['nbrUsername'] == 0)
       {
         $updateId = $bdd->prepare('UPDATE user SET lastName = ?, firstName = ?, username = ? WHERE email = ?');
@@ -75,27 +66,20 @@ $InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
         $_SESSION['lastName'] = $_POST['lastName'];
         $_SESSION['firstName'] = $_POST['firstName'];
         $_SESSION['username'] = $_POST['username'];
-
       }
   else {
     echo 'testostérone';
   }
 break;
-
 // Modification de l'adresse
 case 'modifyAddress': ////////////////////////////////////////////////////////////////////////////////////
 $getInfos = $bdd->prepare('SELECT address, city, postalCode FROM user WHERE email = ?');
 $getInfos->execute(array($_SESSION['email']));
 $InfosList = $getInfos->fetch(PDO::FETCH_ASSOC);
-
 // On vérifie l'existence du nouveau nom d'utilisateur (puisqu'il est unique)
-
         $updateId = $bdd->prepare('UPDATE user SET address = ?, city = ?, postalCode = ? WHERE email = ?');
         $updateId->execute(array($_POST['addressinfo'], $_POST['city'], $_POST['postalCode'],  $_SESSION['email']));
-
-
 break;
-
 case 'generateAddForm': ////////////////////////////////////////////////////////////////////////////////////
 // Fonction permettant la génération d'un formulaire PHP pour modifier les informations Identité(profil)
 if(isset($_POST['addressinfo']) && isset($_POST['city']) && isset($_POST['postalCode'])){
@@ -108,8 +92,6 @@ else {
   echo 'merde';
 }
 break;
-
-
 case 'addProject':
   $user = $bdd->prepare("SELECT id FROM user WHERE email = ?");
   $user->execute(array($_SESSION['email']));
@@ -121,13 +103,11 @@ case 'addProject':
       $target = $_POST['target'];
       $deadline = $_POST['deadLine'];
       $contribMin = $_POST['contribMin'];
-
   $addProject = $bdd->prepare("INSERT INTO projet(idCategorie, idUser, name, target, description, deadLine, contribMin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-  $addProject->execute(array($category, $userId, $name, $target, $description, $deadline, $contribMin);
+  $addProject->execute(array($category, $userId, $name, $target, $description, $deadline, $contribMin));
   echo 'Projet ajouté'; var_dump($_POST);
   var_dump($userId);
 break;
-
   default:
   echo 'Erreur, fonction inexistante.';
   break;

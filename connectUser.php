@@ -2,7 +2,7 @@
 require_once("admin/bddConnect.php");
 session_start();
 // Connecter un utilisateur sur Contribute :
-if (isset($_POST['identifiant']) && isset($_POST['password']))
+if (!empty($_POST['identifiant']) && !empty($_POST['password']))
 {
   $identifiant = $_POST['identifiant'];
   $password = $_POST['password'];
@@ -15,6 +15,7 @@ if (isset($_POST['identifiant']) && isset($_POST['password']))
           $realMdp = $req->fetch();
           if (password_verify($password, $realMdp['password']))
           {
+            header('Location: index.php');
             // Ici, la connexion s'effectue, on récupère tout ce dont on a besoin
             $connect = $bdd->prepare("SELECT username, firstName, lastName, email FROM user WHERE email OR username = ?");
             $connect->execute(array($identifiant));
@@ -28,6 +29,12 @@ if (isset($_POST['identifiant']) && isset($_POST['password']))
             $dateCo->execute(array($identifiant));
             var_dump($_SESSION);
     }
+    else {
+      echo 'Mauvais identifiant / mot de passe';
+    }
+  }
+  else {
+    echo 'Mauvais identifiant / mot de passe';
   }
 }
 else {
