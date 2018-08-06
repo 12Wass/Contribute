@@ -97,17 +97,34 @@ case 'addProject':
   $user->execute(array($_SESSION['email']));
   $userId = $user->fetch(PDO::FETCH_ASSOC);
     // On redéfinis les variables plus plus de facilité
+
       $category = $_POST['selectedCategory'];
       $name = $_POST['projectName'];
       $description = $_POST['description'];
       $target = $_POST['target'];
       $deadline = $_POST['deadLine'];
       $contribMin = $_POST['contribMin'];
-  $addProject = $bdd->prepare("INSERT INTO projet(idCategorie, idUser, name, target, description, deadLine, contribMin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+  $addProject = $bdd->prepare("INSERT INTO projet(idCategorie, idUser, name, target, description, deadLine, contribMin, entryDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
   $addProject->execute(array($category, $userId, $name, $target, $description, $deadline, $contribMin));
   echo 'Projet ajouté'; var_dump($_POST);
   var_dump($userId);
+  var_dump($addProject);
 break;
+
+case 'generatePjForm': ////////////////////////////////////////////////////////////////////////////////////
+// Fonction permettant la génération d'un formulaire PHP pour modifier les informations Identité(profil)
+if(isset($_POST['name']) && isset($_POST['category']) && isset($_POST['desc'])){
+  $name = $_POST['name'];
+  $category = $_POST['category'];
+  $desc = $_POST['desc'];
+  include('includes/modifyForm.php');
+}
+else {
+  echo 'merde';
+}
+break;
+
   default:
   echo 'Erreur, fonction inexistante.';
   break;

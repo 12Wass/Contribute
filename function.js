@@ -1,5 +1,8 @@
 /* Ce fichier à pour objectif de lister et compresser toutes les fonctions JS/AJAX
   utilisées sur Contribute.
+  Améliorations à faire :
+    Fonctions de génération de formulaire de modification de profil :
+      - Conversion des <p> en <input> pour éviter un rechargement de page
 */
 
 function connectUser() {
@@ -25,6 +28,7 @@ function connectUser() {
 }
 
 // Fonctions de modification depuis le profil
+
   // Modifications d'identité //
 function modifyId(){
   var identity = document.getElementsByClassName('identity');
@@ -33,6 +37,7 @@ function modifyId(){
     var picture = identity[2].innerText;
     var username = identity[3].innerText;
     var functionSelect = 'generateIdForm'; // Fonction PHP crééant le formulaire de modification
+
     if (lastName.length > 1){
       var request = new XMLHttpRequest();
       request.onreadystatechange = function(){
@@ -83,8 +88,8 @@ console.log('erreur');
 function modifyAdd(){
   var address = document.getElementsByClassName('address');
     var addressinfo = address[0].innerText;
-    var city = address[1].innerText;;
-    var postalCode = address[2].innerText;;
+    var city = address[1].innerText;
+    var postalCode = address[2].innerText;
     var functionSelect = 'generateAddForm';
     if (city.length > 1){
       var request = new XMLHttpRequest();
@@ -98,6 +103,32 @@ function modifyAdd(){
       request.send(`addressinfo=${addressinfo}&city=${city}
                    &postalCode=${postalCode}
                    &functionSelect=${functionSelect}`);
+    }
+}
+
+function modifyPj(){
+    var name = document.getElementById('name').value;
+    var category = document.getElementById('category').value;
+    var target = document.getElementById('target').value;
+    var funds = document.getElementById('funds').value;
+    var desc = document.getElementById('desc').value;
+    var deadLine = document.getElementById('deadLine').value;
+    var contribMin = document.getElementById('contribMin').value;
+    var entryDate = document.getElementById('entryDate').value;
+    var valid = document.getElementById('valid').value;
+    var functionSelect = 'generatePjForm';
+    if (name.length > 1){
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+          document.write(request.responseText);
+        }
+      };
+      request.open('POST', 'function.php');
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      request.send(`name=${name}&category=${category}
+                   &target=${target}&funds=${funds}&desc=${desc}&deadLine=${deadLine}&contribMin=${contribMin}
+                   &entryDate=${entryDate}&valid=${valid}&functionSelect=${functionSelect}`);
     }
 }
 
