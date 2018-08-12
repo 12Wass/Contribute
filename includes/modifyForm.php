@@ -37,7 +37,32 @@
 <?php }
 elseif ($_POST['functionSelect'] == 'generatePjForm') {
   ?>
-
+      <h1>Modification pour l'adresse mail: <?php echo $_SESSION['email'];?></h1><br>
+      <form action="" method="post">
+              <label for="name">Projet : </label>
+          <input type="text" id="name" name="name" value="<?php echo $name;?>"></input></br>
+          <label for="category">Catégorie : </label>
+          <input type="text" id="category" name="category" value="<?php echo $category;?>"></input></br>
+          <label for="desc">Description :</label>
+          <input type="text" id="desc" name="desc" value="<?php echo $desc;?>"></input></br>
+          <label for="target">Objectif :  </label>
+          <input type="text" id="target" name="target" value="<?php echo $target;?>"></input></br>
+          <label for="funds">Fonds récoltés : </label>
+          <input type="text" id="funds" name="funds" value="<?php echo $funds;?>"></input></br>
+          <label for="deadLine">DeadLine :</label>
+          <input type="text" id="deadLine" name="deadLine" value="<?php echo $deadLine;?>"></input></br>
+          <label for="contribMin">Contribution Minimale : </label>
+          <input type="text" id="contribMin" name="contribMin" value="<?php echo $contribMin;?>"></input></br>
+          <label for="valid">Validé : </label>
+          <?php if ($valid == 1) {
+            echo 'Projet validé!<br>';
+          }
+            else {
+              echo 'En attente de validation<br>';
+            }
+          ?>
+          <button onclick="sendPjMod()">Envoyer</button>
+          <a href="profil.php">Retour</a>
 
 <?php } ?>
   </body>

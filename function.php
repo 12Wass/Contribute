@@ -114,10 +114,23 @@ break;
 
 case 'generatePjForm': ////////////////////////////////////////////////////////////////////////////////////
 // Fonction permettant la génération d'un formulaire PHP pour modifier les informations Identité(profil)
-if(isset($_POST['name']) && isset($_POST['category']) && isset($_POST['desc'])){
-  $name = $_POST['name'];
-  $category = $_POST['category'];
-  $desc = $_POST['desc'];
+if(isset($_POST['projet'])){
+  // On récupère les informations du projet
+  $getPjInfos = $bdd->prepare('SELECT * FROM projet WHERE name = ? ');
+  $getPjInfos->execute(array($_POST['projet']));
+  $pj = $getPjInfos->fetch(PDO::FETCH_ASSOC);
+  // On récupère le nom et la liste des catégories
+  $getCat = $bdd->prepare('SELECT nom FROM categorie WHERE id = ? ');
+  $getCat->execute(array($pj['idCategorie']));
+  $cat = $getCat->fetch(PDO::FETCH_ASSOC);
+
+  $name = $pj['name'];
+  $category = $cat['nom'];
+  $desc = $pj['description'];
+  $deadLine = $pj['deadLine'];
+  $contribMin = $pj['contribMin'];
+  $funds = $pj['funds'];
+  $target = $pj['target'];
   include('includes/modifyForm.php');
 }
 else {

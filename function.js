@@ -30,6 +30,7 @@ function connectUser() {
 // Fonctions de modification depuis le profil
 
   // Modifications d'identité //
+
 function modifyId(){
   var identity = document.getElementsByClassName('identity');
     var lastName = identity[0].innerText;
@@ -84,7 +85,7 @@ console.log('erreur');
  }
 }
 
-
+// Modification de l'adresse / génération du formulaire
 function modifyAdd(){
   var address = document.getElementsByClassName('address');
     var addressinfo = address[0].innerText;
@@ -106,34 +107,7 @@ function modifyAdd(){
     }
 }
 
-function modifyPj(){
-    var name = document.getElementById('name').value;
-    var category = document.getElementById('category').value;
-    var target = document.getElementById('target').value;
-    var funds = document.getElementById('funds').value;
-    var desc = document.getElementById('desc').value;
-    var deadLine = document.getElementById('deadLine').value;
-    var contribMin = document.getElementById('contribMin').value;
-    var entryDate = document.getElementById('entryDate').value;
-    var valid = document.getElementById('valid').value;
-    var functionSelect = 'generatePjForm';
-    if (name.length > 1){
-      var request = new XMLHttpRequest();
-      request.onreadystatechange = function(){
-        if(request.readyState == 4 && request.status == 200){
-          document.write(request.responseText);
-        }
-      };
-      request.open('POST', 'function.php');
-      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      request.send(`name=${name}&category=${category}
-                   &target=${target}&funds=${funds}&desc=${desc}&deadLine=${deadLine}&contribMin=${contribMin}
-                   &entryDate=${entryDate}&valid=${valid}&functionSelect=${functionSelect}`);
-    }
-}
-
-
-// Envoi de la modification d'adresse
+// Envoi de la modification d'Adresse
 function sendAddMod() {
 var newAddressinfo = document.getElementById('addressinfo').value;
 var newCity = document.getElementById('city').value;
@@ -198,6 +172,25 @@ function addProject() {
        }
 }
 
+// Modification du projet / génération du formulaire
+
+function modifyPj(){
+    var lp = document.getElementById('projet');
+    var projet = lp.options[lp.selectedIndex].value;
+    console.log(projet);
+    var functionSelect = 'generatePjForm';
+    if (projet.length > 1){
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+          document.write(request.responseText);
+        }
+      };
+      request.open('POST', 'function.php');
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      request.send(`projet=${projet}&functionSelect=${functionSelect}`);
+    }
+}
 
 
 

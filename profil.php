@@ -66,32 +66,25 @@
       if ($cp != 0) {
         echo 'Vous n\'avez pas de projets en cours';
       }
-      else {
+      else { ?>
+        <select id="projet">
+        <?php
         $projet = $bdd->prepare('SELECT * FROM projet WHERE idUser = ?');
         $projet->execute(array($ui['id']));
         foreach($projet AS $pj) {
           $getCat = $bdd->prepare('SELECT nom FROM categorie WHERE id = ?');
           $getCat->execute(array($pj['idCategorie']));
           $cat = $getCat->fetch(PDO::FETCH_ASSOC);
-
             ?>
-      <ul>
-        <li name="name" id="name"><h3><?php echo $pj['name']; ?></h3></li>
-        <li name="category" id="category"><?php echo $cat['nom']; ?></li>
-        <li name="target" id="target"><?php echo $pj['target']; ?></li>
-        <li name="funds" id="funds"><?php echo $pj['funds']; ?></li>
-        <li name="desc" id="desc"><?php echo $pj['description']; ?></li>
-        <li name="deadLine" id="deadLine"><?php echo $pj['deadLine']; ?></li>
-        <li name="contribMin" id="contribMin"><?php echo $pj['contribMin']; ?></li>
-        <li name="entryDate" id="entryDate"><?php echo $pj['entryDate']; ?></li>
-        <li name="valid" id="valid"><?php echo $pj['valid']; ?></li>
-      </ul>
+            <option id="name" name="<?php echo $pj['id']; ?>"><?php echo $pj['name']; ?></option>
       <?php
-    }
+    } ?>
+  </select><br>
+  <button onclick="modifyPj()">Modifier</button>
+
+    <?php
 }
       ?>
-      <button onclick="modifyPj()">Modifier</button>
-
   </body>
   <script src="function.js"></script>
 </html>
