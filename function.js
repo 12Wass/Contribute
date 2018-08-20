@@ -177,7 +177,6 @@ function addProject() {
 function modifyPj(){
     var lp = document.getElementById('projet');
     var projet = lp.options[lp.selectedIndex].value;
-    console.log(projet);
     var functionSelect = 'generatePjForm';
     if (projet.length > 1){
       var request = new XMLHttpRequest();
@@ -192,6 +191,34 @@ function modifyPj(){
     }
 }
 
+// Envoi de la modification du projet
+  // Fonction inutilisée
+function sendPjMod(){
+  var name = document.getElementById('name').value;
+  var desc = document.getElementById('desc').value;
+  var target = document.getElementById('target').value;
+  var deadLine = document.getElementById('deadLine').value;
+  var contribMin = document.getElementById('contribMin').value;
+  console.log(name);
+  console.log(desc);
+  console.log(target);
+  console.log(deadLine);
+  console.log(contribMin);
+  var functionSelect = 'modPj';
+  if (name.length > 1){
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+      if(request.readyState == 4 && request.status == 200){
+        document.write(request.responseText);
+      }
+    };
+    request.open('POST', 'function.php');
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    request.send(`name=${name}&desc=${desc}&
+                  target=${target}&deadLine=${deadLine}&
+                  contribMin=${contribMin}&functionSelect=${functionSelect}`);
+  }
+}
 
 
 

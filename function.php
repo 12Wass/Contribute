@@ -131,11 +131,22 @@ if(isset($_POST['projet'])){
   $contribMin = $pj['contribMin'];
   $funds = $pj['funds'];
   $target = $pj['target'];
+  $_POST['id'] = $pj['id'];
   include('includes/modifyForm.php');
 }
 else {
-  echo 'merde';
+  echo 'Erreur - Cliquez <a href="index.php">ici</a> pour être redirigé vers l\'index';
 }
+break;
+
+case 'modPj': ////////////////////////////////////////////////////////////////////////////////////
+// On vérifie l'unicité des valeurs (pour le nom notamment, qui doit être unique)
+$getInfos = $bdd->prepare('SELECT * FROM projet WHERE name = ?');
+$getInfos->execute(array($_POST['name']));
+$projetInfos = $getInfos->fetch(PDO::FETCH_ASSOC);
+// On vérifie l'existence du nouveau nom d'utilisateur (puisqu'il est unique)
+        $updatePj = $bdd->prepare('UPDATE projet SET name = ?, description = ?,  contribMin = ?, target = ? WHERE id = ?');
+        $updatePj->execute(array($_POST['name'], $_POST['desc'], $_POST['contribMin'], $_POST['target'],  $projetInfos['id']));
 break;
 
   default:
