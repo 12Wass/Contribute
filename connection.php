@@ -15,7 +15,7 @@
   <body>
     <h1>Connexion</h1>
     <form action="" method="post">
-      <label for="identifiant" id="idLab">Adresse mail - Nom d'utilisateur</label><br>
+      <label for="identifiant" id="idLab">Nom d'utilisateur</label><br>
       <input type="text" name="identifiant" id="identifiant"></input><br>
       <label for="password" id="passLab">Mot de passe</label><br>
       <input type="password" name="password" id="password"></input><br>

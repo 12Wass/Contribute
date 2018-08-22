@@ -3,7 +3,7 @@
 <html lang="fr" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Modification du profil</title>
   </head>
   <body>
 <?php if ($_POST['functionSelect'] == 'generateIdForm'){
@@ -66,6 +66,31 @@ elseif ($_POST['functionSelect'] == 'generatePjForm') {
           ?>
           <button onclick="sendPjMod()">Envoyer</button>
           <a href="profil.php">Retour</a>
+
+<?php } elseif ($_POST['functionSelect'] == 'askPassword') { ?>
+  <h1>Modification pour l'adresse mail: <?php echo $_SESSION['email'];?></h1><br>
+  <p>Renseignez d'abord votre mot de passe.</p>
+  <form action="function.php" method="post">
+          <label for="password">Mot de passe : </label>
+      <input type="password" id="password" name="password" value=""></input>
+      <?php // HACK: J'ai ajouté un input hidden pour functionSelect, pour des test purpose ?>
+      <input type="hidden" name="functionSelect" id="functionSelect" value="checkPassword"></input></br>
+      <input type="submit"></input>
+      <a href="profil.php">Retour</a>
+
+<?php } elseif ($_POST['functionSelect'] == 'checkPassword') {?>
+  <h1>Modification pour l'adresse mail: <?php echo $_SESSION['email']; ?></h1><br>
+  <p>Le mot de passe entré est correct. Vous pouvez le modifier ici.</p>
+    <form action="" method="post">
+      <label for="password">Nouveau mot de passe:</label>
+      <input type="password" id="password" name="password" value=""></input>
+      <label for="verifPassword">Confirmation du mot de passe:</label>
+      <input type="password" id="verifPassword" name="verifPassword" value=""></input>
+      <input type="hidden" name="email" id="email" value="<?php echo $_SESSION['email']; ?>"></input></br>
+      <input type="hidden" name="functionSelect" id="functionSelect" value="sendPassMod"></input></br>
+      <button onclick="sendPassMod()">Envoyer</button>
+    </form>
+    <script src="function.js"></script>
 
 <?php } ?>
   </body>

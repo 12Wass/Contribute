@@ -34,6 +34,9 @@ if (isset($_POST['identifiant']) && isset($_POST['password']))
             var_dump($_SESSION);
     }
   }
+  else {
+    echo 'Un des champs rempli est incorrect.';
+  }
 }
 else {
   echo 'Un des champs demandés n\'est pas rempli.';
@@ -147,6 +150,80 @@ $projetInfos = $getInfos->fetch(PDO::FETCH_ASSOC);
 // On vérifie l'existence du nouveau nom d'utilisateur (puisqu'il est unique)
         $updatePj = $bdd->prepare('UPDATE projet SET name = ?, description = ?,  contribMin = ?, target = ? WHERE id = ?');
         $updatePj->execute(array($_POST['name'], $_POST['desc'], $_POST['contribMin'], $_POST['target'],  $projetInfos['id']));
+break;
+
+// Fonction de modification d'adresse mail et de mot de passe : Checking d'identité
+case 'askPassword': ////////////////////////////////////////////////////////////////////////////////////
+// Fonction permettant la génération d'un formulaire PHP pour modifier les informations Identité(profil)
+  include('includes/modifyForm.php');
+break;
+
+// Fonction de vérification du mot de passe entré et d'accès au formulaire de modification final
+
+case 'checkPassword': ////////////////////////////////////////////////////////////////////////////////////
+// On compare le mot de passe envoyé avec celui de la base de données (comme avec la connexion)
+$password = $_POST['password'];
+// On vérifie la concordance de l'identifiant avec le nom d'utilisateur ou le mail
+  $req = $bdd->prepare("SELECT password FROM user WHERE email = ?");
+  $req->execute(array($_SESSION['email']));
+      if (!empty($req))
+      {
+        $realMdp = $req->fetch();
+        if (password_verify($password, $realMdp['password'])){
+          include('includes/modifyForm.php');
+        }
+        else {
+          echo 'Mauvais mot de passe. Redirection <a href="profil.php">ici</a>';
+        }
+      }
+      else {
+        echo 'Mot de passe ou email inexistant.';
+      }
+break;
+
+// Envoi de la modification du mot de passe vers la base de données
+case 'sendPassMod': ////////////////////////////////////////////////////////////////////////////////////
+  if($_POST['password'] == $_POST['verifPassword']){
+    // Si les deux mots de passe rentrés correspondent
+    $password = $_POST['password'];
+    $req = $bdd->prepare('UPDATE user SET password = ? WHERE email = ?');
+    $req->execute(array(password_hash($password, PASSWORD_DEFAULT), $_SESSION['email']));
+    $header="MIME-Version: 1.0\r\n";
+    $header.='From:"Contribute Register" <support@contribute.com>'."\n";
+    $header.='Content-Type:text/html; charset="utf-8"'."\n";
+    $header.='Content-Transfer-Encoding: 8bit';
+
+    $message='
+    <html>
+      <body>
+          <h1>Contribute : Votre mot de passe a bien été modifié.</h1>
+        <div>
+          <p>Alerte : Modification de mot de passe.<br>
+          Le mot de passe du compte '. $_SESSION['email'] .' viens d\'être modifié. <br>
+        </div>
+      </body>
+    <html>
+    ';
+    mail($_SESSION['email'], "Contribute : Modification de votre mot de passe", $message, $header);
+
+    echo 'Votre mot de passe a bien été modifié. Veuillez vous reconnecter. <a href="index.php">Accueil</a>';
+    // Déconnexion (même script que dans 'disconnect.php')
+    $_SESSION = array();
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+
+    // Finalement, on détruit la session.
+    session_destroy();
+}
+
+  else {
+    echo 'Les deux mots de passes rentrés ne correspondent pas. Veuillez réessayer';
+  }
 break;
 
   default:

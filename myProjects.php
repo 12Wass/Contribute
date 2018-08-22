@@ -18,7 +18,22 @@ else {
 
     ?>
     <h1>Mes projets</h1>
+    <?php
+      $getProjects = $bdd->prepare('SELECT * FROM projet WHERE email = ? AND WHERE deadLine > NOW()');
+      $getProjects->execute(array($_SESSION['email']));
+      $projets = $getProjects->fetch(PDO::FETCH_ASSOC);
+
+      $outDated = $bdd->prepare('SELECT * FROM projet WHERE email = ? AND WHERE deadLine < NOW()');
+      $outDated->execute(array($_SESSION['email']));
+      $oldProjets = $outDated->fetch(PDO::FETCH_ASSOC);
+      var_dump($oldProjets); echo'<br>';
+      var_dump($projets);
+    ?>
       <p>Vos projets en cours</p>
+    <?php foreach($projets AS $p) {
+      echo 'Nom du projet : '. $projets['name']. '.';
+    }
+    ?>
       <p>Vos projets terminés</p>
   </body>
 </html>

@@ -50,7 +50,7 @@
     <legend>Contact et mot de passe</legend>
     <label for="phone">Téléphone</label>
     <p name="phone"><?php echo $ui['phone'];?> <a href="" onclick="modifyLn()">Modifier</a></p>
-    <h3>Pour modifier votre email et/ou votre mot de passe, cliquez <a href="">ici</a></h3>
+    <h3>Pour modifier votre mot de passe, cliquez <button onclick="askPassword()">ici</a></h3>
   </fieldset>
   <fieldset>
     <legend>Vos projets</legend>

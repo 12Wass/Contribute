@@ -220,7 +220,62 @@ function sendPjMod(){
   }
 }
 
+// Modifications de l'email et du mot de passe
+  // Fonctions 'checkPassword', 'askPassword', 'generateEpForm', 'sendEpForm'
 
+function checkPassword(){
+  var password = document.getElementById('password').value;
+  var email = document.getElementById('email').value;
+  console.log(email);
+  var functionSelect = 'checkPassword';
+    if(password.length > 1){
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+          document.write(request.responseText);
+        }
+      };
+      request.open('POST', 'function.php');
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      request.send(`password=${password}&email=${email}&functionSelect=${functionSelect}`);
+    }
+}
+
+function askPassword() {
+  var functionSelect = 'askPassword';
+    if(functionSelect.length > 1){
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function(){
+        if(request.readyState == 4 && request.status == 200){
+          document.write(request.responseText);
+        }
+      };
+      request.open('POST', 'function.php');
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      request.send(`functionSelect=${functionSelect}`);
+    }
+}
+
+function sendPassMod() {
+var password = document.getElementById('password').value;
+var verifPassword = document.getElementById('verifPassword').value;
+var functionSelect = 'sendPassMod';
+if(password.length > 5 && verifPassword.length > 5) { 
+ var request = new XMLHttpRequest();
+ request.onreadystatechange = function() {
+   if (request.readyState == 4 && request.status == 200) {
+     document.write(request.responseText);
+   }
+ };
+ request.open('POST', 'function.php');
+ request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+ request.send(`&password=${password}&verifPassword=${verifPassword}
+          &functionSelect=${functionSelect}`);
+}
+  else {
+    console.log('erreur');
+  }
+}
 
 
 
